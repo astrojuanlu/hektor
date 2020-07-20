@@ -1,0 +1,39 @@
+[akiles2d]
+simdir = "sims"  # directory where simulation files will be saved
+netcurrent = 0  # net electric current density in the plume to solve for
+maxiter = 200  # maximum number of iterations to try
+tolerance = 1e-6  # norm of errorfcn must be this small to exit solver successfully
+
+[logger]
+filedebuglevel = 3  # norm of errorfcn must be this small to exit solver successfully
+screendebuglevel = 3  # screen debug level. A higher number prints less messages
+linelength = 80  # maximum line length in the logs
+
+[potential]
+model = "parabolic"  # the electric field model
+
+[ions]
+model = "cold"  # the ion model to use
+chi = 0.02  # dimensionless ion axial velocity at the origin (also current)
+mu = "inf"  # dimensionless ion mass. Set to Inf for hypersonic limit
+
+[electrons]
+model = "semimaxwellian"  # the electron model to use
+# Number of points to use in E' integration.
+# The first number is for E' less than the a transition value (linspaced points).
+# The second is for E' larger than that (logspaced points).
+nintegrationpoints = [ 500, 300 ]
+alpha = 1  # filling parameter for doubly-trapped regions
+
+# [guess]
+[solution]
+# Number of points in the solution vector.
+# First point must be origin. Last point must be infinity.
+npoints = 500
+
+[solver]
+phibracket = [ -10.0, 0.1 ]  # allowed range to search for phi at each point
+
+[postprocessor]
+# Cell array with the names of postprocessor functions to run after iteration process
+postfunctions = [ "moments", "EEDF" ]
