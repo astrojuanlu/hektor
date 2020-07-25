@@ -1,6 +1,6 @@
 # Hektor
 
-[TBD]
+Original code: https://github.com/ep2lab/akiles/
 
 ## Installation
 
