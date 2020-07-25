@@ -22,8 +22,9 @@ class Solution:
         Density of the (vz > 0) electrons at the origin.
 
     """
-    npoints : int
-    h : np.ndarray
-    r : np.ndarray
-    phi : np.ndarray
-    ne00p : np.ndarray
+
+    npoints: int
+    h: np.ndarray
+    r: np.ndarray
+    phi: np.ndarray
+    ne00p: np.ndarray
