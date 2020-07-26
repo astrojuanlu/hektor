@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
-from hektor.potential.parabolic.phi import phi
+from hektor.potential.parabolic import phi
 
 
 @pytest.mark.parametrize(
