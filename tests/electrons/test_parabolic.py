@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from hektor.electrons.parabolic import getbetar, getr, getvelocities
+from hektor.electrons.parabolic import getbetar, getmomenta, getr, getvelocities, Ueff
 
 
 @pytest.mark.parametrize(
@@ -19,6 +19,55 @@ from hektor.electrons.parabolic import getbetar, getr, getvelocities
 def test_getbetar(h, r, Jr, ptheta, expected_betar):
     betar = getbetar(h, r, Jr, ptheta)
     np.testing.assert_almost_equal(betar, expected_betar)
+
+
+@pytest.mark.parametrize(
+    "h, r, phiz, vz, vr, vtheta, expected_E, expected_Jr, expected_ptheta",
+    [
+        (
+            np.float_(0.0),
+            np.float_(0.0),
+            np.float_(0.0),
+            np.float_(0.0),
+            np.float_(0.0),
+            np.float_(0.0),
+            np.nan,
+            np.nan,
+            0.0,
+        ),  # To avoid ZeroDivisionError
+        (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        (
+            0.8,
+            np.array([0.6, 0.5]),
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            np.array([0.8789062499999998, 0.6103515624999999]),
+            np.array([1.2495608263570406, 0.8677505738590559]),
+            np.array([0.0, 0.0]),
+        ),
+        (
+            np.array([0.7, 0.6]),
+            np.array([0.5, 0.4]),
+            np.array([0.3, 0.2]),
+            np.array([0.1, 0.05]),
+            np.array([0.1, 0.05]),
+            np.array([0.1, 0.05]),
+            np.array([0.756232819658476, 1.0383179012345682]),
+            np.array([0.9871939351512351, 0.9264747638411237]),
+            np.array([0.05, 0.020000000000000004]),
+        ),
+    ],
+)
+def test_getmomenta(
+    h, r, phiz, vz, vr, vtheta, expected_E, expected_Jr, expected_ptheta
+):
+    E, Jr, ptheta = getmomenta(h, r, phiz, vz, vr, vtheta)
+
+    np.testing.assert_almost_equal(E, expected_E)
+    np.testing.assert_almost_equal(Jr, expected_Jr)
+    np.testing.assert_almost_equal(ptheta, expected_ptheta)
 
 
 @pytest.mark.parametrize(
@@ -59,3 +108,24 @@ def test_getvelocities(h, r, phiz, E, Jr, ptheta, exp_absvz, exp_absvr, exp_absv
     np.testing.assert_almost_equal(absvz, exp_absvz)
     np.testing.assert_almost_equal(absvr, exp_absvr)
     np.testing.assert_almost_equal(absvtheta, exp_absvtheta)
+
+
+@pytest.mark.parametrize(
+    "h, phiz, Jr, ptheta, expected_result",
+    [
+        (0.0, 0.0, 0.0, 0.0, np.nan),
+        (1.0, 0.0, 0.0, 0.0, 0.0),
+        (0.7, np.array([0.5, 0.3]), 0.0, 0.0, np.array([-0.5, -0.3])),
+        (
+            np.array([0.6, 0.5]),
+            np.array([0.4, 0.2]),
+            np.array([0.2, 0.1]),
+            np.array([0.05, 0.025]),
+            np.array([-0.13209615044272438, -0.03925769026563464]),
+        ),
+    ],
+)
+def test_Ueff(h, phiz, Jr, ptheta, expected_result):
+    result = Ueff(h, phiz, Jr, ptheta)
+
+    np.testing.assert_almost_equal(result, expected_result)
