@@ -4,8 +4,11 @@ from scipy.optimize import root_scalar
 
 
 def ne00p_phiinfty_nobarriers(chi):
-    phiinfty = root_scalar(eq1_minus_eq2, args=(chi,), x0=-5)
-    ne00p = 1 / eq2(phiinfty)
+    # MATLAB fzero(@(phiinfty) eq1(phiinfty)-eq2(phiinfty),-5);
+    # Ideal Python: root_scalar(eq1_minus_eq2, args=(chi,), x0=-5)
+    sol = root_scalar(eq1_minus_eq2, args=(chi,), x0=-5)
+    phiinfty = sol.root
+    ne00p = 1 / eq2(phiinfty, chi)
 
     return ne00p, phiinfty
 
