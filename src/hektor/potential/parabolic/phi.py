@@ -20,4 +20,4 @@ def phi(h, r, phiz):
         potential at the requested points
     """
 
-    return -r**2 / h**4 + phiz
+    return -(r ** 2) / h ** 4 + phiz

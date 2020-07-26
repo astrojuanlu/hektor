@@ -21,4 +21,4 @@ def Ueff(h, phiz, Jr, ptheta):
     phi : numpy.ndarray
         potential at the requested points
     """
-    return -phiz + np.sqrt(2) * (Jr/np.pi + np.abs(ptheta)) / h
+    return -phiz + np.sqrt(2) * (Jr / np.pi + np.abs(ptheta)) / h
