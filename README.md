@@ -1,5 +1,7 @@
 # Hektor
 
+![hektor](https://github.com/astrojuanlu/hektor/workflows/hektor/badge.svg)
+
 Original code: https://github.com/ep2lab/akiles/
 
 ## Installation
