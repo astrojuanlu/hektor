@@ -5,5 +5,6 @@
 #    pip-compile
 #
 attrs==19.3.0             # via -r requirements.in
-numpy==1.19.0             # via -r requirements.in
+numpy==1.19.0             # via -r requirements.in, scipy
+scipy==1.5.2              # via -r requirements.in
 toml==0.10.1              # via -r requirements.in

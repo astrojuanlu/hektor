@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from hektor.electrons.parabolic import getbetar, getmomenta, getr, getvelocities, Ueff
+from hektor.electrons.parabolic.semimaxwellian import ne00p_phiinfty_nobarriers
 
 
 @pytest.mark.parametrize(
@@ -129,3 +130,16 @@ def test_Ueff(h, phiz, Jr, ptheta, expected_result):
     result = Ueff(h, phiz, Jr, ptheta)
 
     np.testing.assert_almost_equal(result, expected_result)
+
+
+@pytest.mark.parametrize(
+    "chi, ne00p_exp, phiinfty_exp",
+    [
+        [0.1, 0.527038809116752, -2.760996633043687],
+        [0.5, 0.717436009778448, -0.613999677882413],
+    ],
+)
+def test_semimaxwellian_ne00p_phiinfty_nobarriers(chi, ne00p_exp, phiinfty_exp):
+    ne00p, phiinfty = ne00p_phiinfty_nobarriers(chi)
+    np.testing.assert_almost_equal(ne00p, ne00p_exp)
+    np.testing.assert_almost_equal(phiinfty, phiinfty_exp)
